@@ -390,14 +390,15 @@ where
             let handle = self.triangulation.vertex(*handle);
             let pos_i = handle.position();
             let h_i = i(handle);
-            let diff = pos_i.sub(position);
+            let diff = position.sub(pos_i);
             let r_i2 = diff.length2();
             let r_i = r_i2.powf(flatness);
             let c1_weight_i = *weight / r_i;
             let grad_i = g(handle);
             let zeta_i = h_i + diff.dot(grad_i.into());
-            alpha = alpha + c1_weight_i * r_i;
-            beta = beta + c1_weight_i * r_i2;
+
+            alpha = alpha + c1_weight_i * r_i2;
+            beta = beta + *weight * r_i2;
             sum_c1_weights = sum_c1_weights + c1_weight_i;
             sum_c1 = sum_c1 + zeta_i * c1_weight_i;
             sum_c0 = sum_c0 + h_i * *weight;
