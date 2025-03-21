@@ -314,9 +314,9 @@ where
     /// The value to interpolate is given by the `i` parameter. The gradient that defines the derivative at
     /// each input vertex is given by the `g` parameter.
     ///
-    /// The `flatness` parameter blends between an interpolation that ignores the given gradients (value 0.0)
-    /// or adheres to it strongly (values larger than ~2.0) in the vicinity of any vertex. When in doubt, using
-    /// a value of 1.0 should result in a good interpolation and is also the fastest.
+    /// The `flatness` parameter (should be > 0.0) blends between an interpolation that adheres less to the gradient (small values)
+    /// or adheres to it strongly (values larger than ~2.0) in the vicinity of any vertex. A value of 0.5 reproduces
+    /// the original Sibson C1 interpolant. A value of 1.0 is the fastest and works well in many situations.
     ///
     /// Returns `None` for any point outside the triangulation's convex hull.
     ///
@@ -358,6 +358,10 @@ where
     ///
     /// This method uses the C1 extension proposed by Sibson in
     /// "A brief description of natural neighbor interpolation, R. Sibson, 1981"
+    ///
+    /// It is also worth looking at Julia Flötotto's thesis
+    /// A Coordinate System associated to a Point Cloud issued from a Manifold: Definition, Properties and Applications
+    /// chapter 4.1
     pub fn interpolate_gradient<I, G>(
         &self,
         i: I,
